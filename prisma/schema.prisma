@@ -1,0 +1,332 @@
+// Prisma schema for Arch Code Engineer website
+// Using PostgreSQL (Neon) for production on Vercel
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ============================================
+// Authentication & Users
+// ============================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role      String   @default("admin")
+  isActive  Boolean  @default(true)
+  lastLogin DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([role])
+}
+
+// ============================================
+// Site Configuration
+// ============================================
+
+model SiteSettings {
+  id             String   @id @default(cuid())
+  siteName       String   @default("Arch Code Engineer")
+  siteNameAr     String?  // Arabic site name
+  slogan         String   @default("Where Architecture Meets Innovation")
+  sloganAr       String?  // Arabic slogan
+  logo           String?
+  logoDark       String?  // Logo for dark backgrounds
+  favicon        String?
+  
+  // SEO defaults
+  seoTitle       String?
+  seoTitleAr     String?
+  seoDescription String?
+  seoDescriptionAr String?
+  seoKeywords    String?
+  seoKeywordsAr  String?
+  
+  // Analytics & Tracking
+  googleAnalyticsId String?
+  facebookPixelId   String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// Page Content
+// ============================================
+
+model HomeContent {
+  id              String   @id @default(cuid())
+  
+  // Hero section
+  heroTitle       String   @default("Arch Code Engineer")
+  heroTitleAr     String?
+  heroSubtitle    String   @default("Where Architecture Meets Innovation")
+  heroSubtitleAr  String?
+  heroImage       String?
+  heroVideo       String?  // Optional video background
+  
+  // Intro section
+  introTitle      String   @default("Crafting Spaces")
+  introTitleAr    String?
+  introText       String   @default("We transform visions into architectural masterpieces.")
+  introTextAr     String?
+  introImage      String?
+  
+  // SEO
+  seoTitle        String?
+  seoTitleAr      String?
+  seoDescription  String?
+  seoDescriptionAr String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AboutContent {
+  id              String   @id @default(cuid())
+  
+  // Philosophy section
+  philosophyTitle String   @default("Our Philosophy")
+  philosophyTitleAr String?
+  philosophyText  String   @default("Architecture is not just about buildings. It's about creating experiences.")
+  philosophyTextAr String?
+  philosophyImage String?
+  
+  // Vision section
+  visionTitle     String   @default("Our Vision")
+  visionTitleAr   String?
+  visionText      String   @default("To redefine urban landscapes through innovative and sustainable design.")
+  visionTextAr    String?
+  
+  // Mission section
+  missionTitle    String   @default("Our Mission")
+  missionTitleAr  String?
+  missionText     String   @default("Delivering exceptional architectural solutions that inspire and endure.")
+  missionTextAr   String?
+  
+  // Team
+  teamImage       String?
+  teamDescription String?
+  teamDescriptionAr String?
+  
+  // SEO
+  seoTitle        String?
+  seoTitleAr      String?
+  seoDescription  String?
+  seoDescriptionAr String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// ============================================
+// Services
+// ============================================
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  titleAr     String?
+  description String
+  descriptionAr String?
+  icon        String?
+  image       String?
+  slug        String?  @unique
+  
+  // Ordering and visibility
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  isFeatured  Boolean  @default(false)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+}
+
+// ============================================
+// Projects / Portfolio
+// ============================================
+
+model Project {
+  id              String   @id @default(cuid())
+  title           String
+  titleAr         String?
+  slug            String   @unique
+  description     String
+  descriptionAr   String?
+  fullDescription String?
+  fullDescriptionAr String?
+  
+  // Project details
+  location        String?
+  locationAr      String?
+  year            String?
+  client          String?
+  clientAr        String?
+  area            String?
+  category        String?
+  categoryAr      String?
+  
+  // Images
+  thumbnail       String?
+  images          ProjectImage[]
+  
+  // Status & ordering
+  isFeatured      Boolean  @default(false)
+  isActive        Boolean  @default(true)
+  order           Int      @default(0)
+  viewCount       Int      @default(0)
+  
+  // SEO
+  seoTitle        String?
+  seoTitleAr      String?
+  seoDescription  String?
+  seoDescriptionAr String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([slug])
+  @@index([isActive])
+  @@index([isFeatured])
+  @@index([category])
+  @@index([order])
+}
+
+model ProjectImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  altAr     String?
+  caption   String?
+  captionAr String?
+  order     Int      @default(0)
+  
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId String
+  
+  createdAt DateTime @default(now())
+
+  @@index([projectId])
+  @@index([order])
+}
+
+// ============================================
+// Contact & Communication
+// ============================================
+
+model ContactInfo {
+  id          String   @id @default(cuid())
+  
+  // Address
+  address     String   @default("123 Architecture Avenue, Design District")
+  addressAr   String?
+  city        String   @default("New York")
+  cityAr      String?
+  country     String   @default("United States")
+  countryAr   String?
+  postalCode  String   @default("10001")
+  
+  // Contact details
+  phone       String   @default("+1 (555) 123-4567")
+  phone2      String?  // Secondary phone
+  email       String   @default("hello@archcodeengineer.com")
+  email2      String?  // Secondary email
+  whatsapp    String?
+  
+  // Map
+  mapLink     String?
+  latitude    Float?
+  longitude   Float?
+  
+  // Office hours
+  officeHours   String   @default("Mon-Fri: 9:00 AM - 6:00 PM")
+  officeHoursAr String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SocialLink {
+  id        String   @id @default(cuid())
+  platform  String
+  url       String
+  icon      String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([order])
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String?
+  message   String
+  source    String?  // Where the submission came from
+  ipAddress String?
+  userAgent String?
+  isRead    Boolean  @default(false)
+  isArchived Boolean @default(false)
+  notes     String?  // Admin notes
+  
+  createdAt DateTime @default(now())
+
+  @@index([isRead])
+  @@index([createdAt])
+  @@index([email])
+}
+
+// ============================================
+// Newsletter & Marketing (Future use)
+// ============================================
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  isActive  Boolean  @default(true)
+  source    String?
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([isActive])
+}
+
+// ============================================
+// Site Analytics (Simple tracking)
+// ============================================
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String?
+  userAgent String?
+  ipAddress String?
+  country   String?
+  
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+}

@@ -1,0 +1,429 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Variables */
+:root {
+  --background: 250 250 249;
+  --foreground: 28 25 23;
+  --muted: 245 245 244;
+  --muted-foreground: 120 113 108;
+  --border: 231 229 228;
+  --accent: 26 26 26;
+  --accent-foreground: 250 250 249;
+}
+
+/* Base styles */
+@layer base {
+  * {
+    @apply border-stone-200;
+  }
+
+  html {
+    @apply scroll-smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-cream text-stone-900 font-body;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-light tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-stone-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-stone-400 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-stone-500;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-stone-900 text-white;
+  }
+}
+
+/* Component styles */
+@layer components {
+  /* Container */
+  .container-custom {
+    @apply w-full max-w-[1800px] mx-auto px-6 md:px-12 lg:px-20;
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-20 md:py-28 lg:py-36;
+  }
+
+  /* Large display text */
+  .text-hero {
+    font-size: clamp(3rem, 10vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-stone-900 via-stone-700 to-stone-500;
+  }
+
+  /* Button base */
+  .btn {
+    @apply inline-flex items-center justify-center px-8 py-4 text-sm font-medium tracking-wider uppercase transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply btn bg-stone-900 text-white hover:bg-stone-800;
+  }
+
+  .btn-secondary {
+    @apply btn border border-stone-900 text-stone-900 hover:bg-stone-900 hover:text-white;
+  }
+
+  .btn-ghost {
+    @apply btn text-stone-900 hover:bg-stone-100;
+  }
+
+  /* Input styles */
+  .input-base {
+    @apply w-full px-0 py-4 bg-transparent border-b border-stone-300 text-stone-900 
+           placeholder:text-stone-400 focus:outline-none focus:border-stone-900 
+           transition-colors duration-300;
+  }
+
+  /* Link underline animation */
+  .link-underline {
+    @apply relative;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute left-0 bottom-0 w-0 h-px bg-current transition-all duration-300;
+  }
+
+  .link-underline:hover::after {
+    @apply w-full;
+  }
+
+  /* Image overlay */
+  .image-overlay {
+    @apply relative overflow-hidden;
+  }
+
+  .image-overlay::after {
+    content: '';
+    @apply absolute inset-0 bg-stone-900/0 transition-all duration-500;
+  }
+
+  .image-overlay:hover::after {
+    @apply bg-stone-900/20;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white border border-stone-200 transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply border-stone-300 shadow-lg;
+  }
+
+  /* Grid layout */
+  .grid-layout {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+
+  /* Divider */
+  .divider {
+    @apply w-full h-px bg-stone-200;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 text-xs font-medium tracking-wider uppercase bg-stone-100 text-stone-600;
+  }
+}
+
+/* Utility styles */
+@layer utilities {
+  /* Aspect ratios */
+  .aspect-portrait {
+    aspect-ratio: 3/4;
+  }
+
+  .aspect-landscape {
+    aspect-ratio: 16/9;
+  }
+
+  .aspect-square {
+    aspect-ratio: 1/1;
+  }
+
+  /* Text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Hide scrollbar */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Animation delays */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
+  .delay-800 { animation-delay: 800ms; }
+
+  /* Clip path for reveal animations */
+  .clip-inset-full {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .clip-inset-none {
+    clip-path: inset(0 0 0 0);
+  }
+  
+  /* RTL Direction utility */
+  .direction-rtl {
+    direction: rtl;
+  }
+  
+  .direction-ltr {
+    direction: ltr;
+  }
+}
+
+/* Page transition */
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
+}
+
+.page-transition-exit {
+  opacity: 1;
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in;
+}
+
+/* Smooth image loading */
+img {
+  @apply transition-opacity duration-500;
+}
+
+img[data-loaded="false"] {
+  @apply opacity-0;
+}
+
+img[data-loaded="true"] {
+  @apply opacity-100;
+}
+
+/* Focus visible styles */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-stone-900;
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* ===== RTL Support ===== */
+
+/* RTL body direction */
+[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL link underline adjustment */
+[dir="rtl"] .link-underline::after {
+  left: auto;
+  right: 0;
+}
+
+/* RTL flexbox adjustments - auto-reverse for common patterns */
+[dir="rtl"] .rtl-reverse {
+  flex-direction: row-reverse;
+}
+
+/* Input text alignment for RTL */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+}
+
+/* Form label alignment */
+[dir="rtl"] label {
+  text-align: right;
+}
+
+/* RTL specific spacing adjustments */
+[dir="rtl"] .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* RTL icon adjustments */
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Auto-flip directional icons in RTL */
+[dir="rtl"] .icon-directional,
+[dir="rtl"] [data-icon-flip="true"] {
+  transform: scaleX(-1);
+}
+
+/* Flip arrow icons automatically in RTL */
+[dir="rtl"] .arrow-icon {
+  transform: scaleX(-1);
+}
+
+/* Arabic font improvements */
+[lang="ar"],
+[dir="rtl"] {
+  font-feature-settings: "liga" 1;
+  word-spacing: 0.02em;
+  line-height: 1.8;
+}
+
+[lang="ar"] h1,
+[lang="ar"] h2,
+[lang="ar"] h3,
+[lang="ar"] h4,
+[lang="ar"] h5,
+[lang="ar"] h6,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+/* RTL card layouts */
+[dir="rtl"] .card {
+  text-align: right;
+}
+
+/* RTL button icon spacing */
+[dir="rtl"] .btn svg {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+/* RTL navigation */
+[dir="rtl"] nav ul {
+  direction: rtl;
+}
+
+/* RTL table alignment */
+[dir="rtl"] th,
+[dir="rtl"] td {
+  text-align: right;
+}
+
+/* RTL dropdown positioning */
+[dir="rtl"] .dropdown-menu {
+  left: 0;
+  right: auto;
+}
+
+/* Admin panel RTL fixes */
+[dir="rtl"] .admin-sidebar {
+  left: auto;
+  right: 0;
+  border-left: 1px solid;
+  border-right: none;
+}
+
+[dir="rtl"] .admin-content {
+  margin-left: 0;
+  margin-right: 16rem; /* w-64 = 16rem */
+}
+
+/* RTL form groups */
+[dir="rtl"] .form-group {
+  text-align: right;
+}
+
+/* RTL list styling */
+[dir="rtl"] ul,
+[dir="rtl"] ol {
+  padding-right: 1.5rem;
+  padding-left: 0;
+}
+
+/* RTL checkbox/radio alignment */
+[dir="rtl"] input[type="checkbox"],
+[dir="rtl"] input[type="radio"] {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+/* Better Arabic number display */
+[dir="rtl"] .ltr-numbers {
+  direction: ltr;
+  display: inline-block;
+}
+
+/* RTL scroll adjustments */
+[dir="rtl"]::-webkit-scrollbar {
+  direction: rtl;
+}
+
+/* RTL animation adjustments */
+[dir="rtl"] .page-transition-enter {
+  transform: translateY(20px);
+}
+
+/* RTL gradient fix */
+[dir="rtl"] .text-gradient {
+  @apply bg-gradient-to-l;
+}
