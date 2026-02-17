@@ -1,14 +1,13 @@
 // Prisma schema for Arch Code Engineer website
-// PRODUCTION — PostgreSQL (Neon) on Vercel
+// DEVELOPMENT — SQLite (local file)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 // ============================================

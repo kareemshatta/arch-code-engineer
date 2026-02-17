@@ -9,7 +9,10 @@
     "lint": "next lint",
     "postinstall": "prisma generate",
     "db:push": "prisma db push",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "env:dev": "bash scripts/switch-env.sh dev",
+    "env:prod": "bash scripts/switch-env.sh prod",
+    "env:status": "bash scripts/switch-env.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.4.2",
@@ -20,7 +23,7 @@
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
-    "next-intl": "^4.7.0",
+    "next-intl": "^3.25.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^14.2.3",

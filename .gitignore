@@ -42,3 +42,7 @@ prisma/dev.db-journal
 uploads/*
 !uploads/.gitkeep
 
+
+# Environment files with secrets
+.env.development
+.env.production

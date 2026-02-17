@@ -93,7 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button';
 
 // Motion Button for animations
-export const MotionButton = motion(Button);
+export const MotionButton = motion.create(Button);
 
 export default Button;
 
